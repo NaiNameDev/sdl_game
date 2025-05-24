@@ -1,9 +1,11 @@
 class tile {
 public:
 	color tile_color;
-	
-	tile(color ncolor) {
+	bool collision;
+
+	tile(color ncolor, bool ncollision = false) {
 		tile_color = ncolor;
+		collision = ncollision;
 	}
 };
 
