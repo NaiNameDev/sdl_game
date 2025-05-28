@@ -12,7 +12,6 @@ private:
 
 	vector2 camera_position;
 
-
 public:
 	scene(int wx, int wy, int scale) {
 		SDL_CreateWindowAndRenderer(wx * scale, wy * scale, 0, &window, &renderer);
@@ -38,6 +37,11 @@ public:
 	void buffer_set_pixel(int x, int y, color col) {
 		if (x >= 0 && y >= 0 && x < win_size.x && y < win_size.y) {
 			buffer[(y * win_size.x) + x] = (Uint32)((col.r << 16) + (col.g << 8) + (col.b << 0));
+		}
+	}
+	void buffer_set_pixel_uint(int x, int y, Uint32 col) {
+		if (x >= 0 && y >= 0 && x < win_size.x && y < win_size.y) {
+			buffer[(y * win_size.x) + x] = col;
 		}
 	}
 	void buffer_fill_square(int x, int y, int sx, int sy, color col) {
@@ -73,7 +77,6 @@ public:
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 	}
-
 
 	vector2i get_mouse_position() {
 		vector2i ret;

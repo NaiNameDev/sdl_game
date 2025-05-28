@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <vector>
 #include <numeric>
 
@@ -8,6 +9,7 @@
 #include "tilemap.h"
 #include "input.cpp"
 #include "object.cpp"
+#include "label.h"
 
 #define dc color(128, 0, 0, 255)
 
@@ -35,12 +37,11 @@ int main() {
 			if (rand()%3 == 1) {
 				map.set_tile(tile(color(rand()%255, rand()%255, rand()%255, 255), true), vector2i(i, j));
 			}
-			else {
-				
-			}
 		}
 	}
 	
+	label lab;
+
 	vector2i mouse_pos;
 	while(true) {
 		mouse_pos = main_scene.get_mouse_position();
@@ -55,6 +56,8 @@ int main() {
 
 		player.draw(&main_scene);
 
+		lab.draw_full_text(&main_scene);
+		
 		main_scene.draw_buffer();
 		main_scene.clear();
 		main_scene.clear_buffer();
@@ -94,9 +97,12 @@ int main() {
 
 		msec = SDL_GetTicks() - frame_start;
 		if(msec > 0) fps = 1000.0 / (double) msec;
-		//std::cout << "FPS: " << fps << std::endl;
+		if (SDL_GetTicks() % 10 == 0 ) {
+			lab.text = std::to_string((int)fps);
+		}
 	}
 }
 void init_sdl() {
+	IMG_Init(IMG_INIT_PNG);
 	SDL_Init(SDL_INIT_VIDEO);
 }
